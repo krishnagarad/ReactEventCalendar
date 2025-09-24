@@ -40,9 +40,9 @@ api.interceptors.request.use(
 // Response Interceptor - Handle token expiration
 api.interceptors.response.use(
   (response) => {
-    if(response&&response.status===200){
+    if (response && (response.status === 200 || response.status === 201)) {
       return response;
-    }else{
+    } else {
       return Promise.reject(new Error('Unexpected response status: ' + response.status));
     }
   },
