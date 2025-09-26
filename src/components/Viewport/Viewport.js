@@ -13,7 +13,7 @@ const routeToTabMapping = {
   '/settings': { id: 'settings', title: 'Settings', component: null }
 };
 
-const Viewport = ({ isAuthenticated, children }) => {
+const Viewport = ({ isAuthenticated, children, handleLogout }) => {
   const [tabs, setTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const location = useLocation();
@@ -107,7 +107,7 @@ const Viewport = ({ isAuthenticated, children }) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Header />
+      <Header isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         <SidePanel onMenuItemClick={addTab} isAuthenticated={isAuthenticated} />
         <MainPanel 

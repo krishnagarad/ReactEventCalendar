@@ -7,10 +7,6 @@ import {
   TextField,
   Button,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Alert
 } from '@mui/material';
 import { useApiMutation } from '../../hooks/useApi';
@@ -21,11 +17,11 @@ const AddEventDialog = ({ open, onClose, onEventAdded }) => {
   
   const [eventForm, setEventForm] = useState({
     title: '',
-      description: '',
-      startDate: '',
-      startTime: '',
-      endDate: '',
-      endTime: ''
+    description: '',
+    startDate: '',
+    startTime: '',
+    endDate: '',
+    endTime: ''
   });
 
 

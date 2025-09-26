@@ -49,9 +49,12 @@ function App() {
 
   // Handle logout
   const handleLogout = () => {
-    setAuthToken(null); // This will remove the token
-    setIsAuthenticated(false);
-    window.location.href = '/'; // Redirect to home
+    if(isAuthenticated) {
+      setAuthToken(null); // This will remove the token
+      setIsAuthenticated(false);      
+    }else{
+      window.location.href = '/';
+    }
   };
 
   if (loading) {
@@ -73,7 +76,7 @@ function App() {
             <Route 
               path="/*" 
               element={
-                <Viewport isAuthenticated={isAuthenticated} onLogout={handleLogout}>
+                <Viewport isAuthenticated={isAuthenticated} handleLogout={handleLogout}>
                   <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
                     {isAuthenticated && (

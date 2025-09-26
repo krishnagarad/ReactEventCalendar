@@ -32,12 +32,12 @@ const Events = () => {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 6,
+    pageSize: 5,
     total: 0,
     totalPages: 0
   });
   const [filters, setFilters] = useState({
-    search: '',   
+    search: '',//CivicPlus API does not support search and throws error if used keeping it for future use   
     orderBy: 'startDate desc'
   });
 
@@ -47,7 +47,7 @@ const Events = () => {
     return fetchEventsWithPagination({
       $top: pagination.pageSize,
       $skip: skip,
-      $filter: buildFilterString(filters),
+      //$filter: buildFilterString(filters),
       $orderBy: filters.orderBy
     });
   }, [pagination.page, pagination.pageSize, filters]);
@@ -74,17 +74,7 @@ const Events = () => {
     
     if (filters.search) {
       filterParts.push(`contains(tolower(title), '${filters.search.toLowerCase()}') or contains(tolower(description), '${filters.search.toLowerCase()}')`);
-    }
-    
-    if (filters.category) {
-      filterParts.push(`category eq '${filters.category}'`);
-    }
-    
-    if (filters.priority) {
-      filterParts.push(`priority eq '${filters.priority}'`);
-    }
-    
-    return filterParts.join(' and ');
+    }       
   };
 
   const handlePageChange = (event, newPage) => {
@@ -115,9 +105,7 @@ const Events = () => {
 
   const handleClearFilters = () => {
     setFilters({
-      search: '',
-      category: '',
-      priority: '',
+      search: '',     
       orderBy: 'startDate desc'
     });
     setPagination(prev => ({
@@ -198,7 +186,7 @@ const Events = () => {
               fullWidth
               placeholder="Search events..."
               value={filters.search}
-              onChange={handleFilterChange('search')}
+              /*onChange={handleFilterChange('search')}*/
               InputProps={{
                 startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />
               }}
@@ -212,10 +200,10 @@ const Events = () => {
                 onChange={handleFilterChange('orderBy')}
                 label="Sort By"
               >
-                <MenuItem value="startDate desc">Newest First</MenuItem>
-                <MenuItem value="startDate asc">Oldest First</MenuItem>
-                <MenuItem value="title asc">Title A-Z</MenuItem>
-                <MenuItem value="title desc">Title Z-A</MenuItem>                
+                <MenuItem value="startDate desc">Start Date DESC</MenuItem>
+                <MenuItem value="startDate asc">Start Date ASC</MenuItem>
+                <MenuItem value="title asc">Title ASC</MenuItem>
+                <MenuItem value="title desc">Title DESC</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -228,10 +216,10 @@ const Events = () => {
                 onChange={handlePageSizeChange}
                 label="Per Page"
               >
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={12}>12</MenuItem>
-                <MenuItem value={24}>24</MenuItem>
-                <MenuItem value={48}>48</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={15}>15</MenuItem>
+                <MenuItem value={20}>20</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -317,7 +305,7 @@ const Events = () => {
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
                       <Typography variant="h6" component="h2" noWrap>
-                        {event.title || 'Untitled Event'}
+                        {event.title}
                       </Typography>                    
                     </Box>
                     {event.description && (
